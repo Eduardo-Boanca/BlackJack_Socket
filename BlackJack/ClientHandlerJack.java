@@ -59,6 +59,7 @@ public class ClientHandlerJack implements Runnable {
                 checkHand(playerHand);
 
                 addCard(playerHand);
+                addCard(dealerHand);
                 } else if(move.equals("stand")) {
                     // End the player's turn
                     out.println("Player stands. Waiting for dealer's move...");

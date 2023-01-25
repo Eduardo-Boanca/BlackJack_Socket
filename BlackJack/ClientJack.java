@@ -1,4 +1,5 @@
 package BlackJack;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -23,6 +24,7 @@ public class ClientJack extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
 
         displayArea = new JTextArea();
         displayArea.setEditable(false);
