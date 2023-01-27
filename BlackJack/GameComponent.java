@@ -83,16 +83,58 @@ public class GameComponent extends JComponent implements MouseListener {
           }
           catch (IOException e) {}
     }
+
+    public void refresh(int cB, int uS, int dS, boolean fD) { //this refresh method will refresh the GameComponent when it is called.
+      currentBalance = cB;
+      playerScore = uS;
+      dealerScore = dS;
+      faceDown = fD;
+      this.repaint();
+    }
+  
+    public void mousePressed(MouseEvent e) {//in this void method, we will control mouse events of the user.
+      int mouseX = e.getX(); //we first get the x and y coordinates of the user's mouse's current position.
+      int mouseY = e.getY();
+  
+      if(mouseX>= 50 && mouseX<=200 && mouseY>=300 && mouseY<=450) {//we will only do something if the x and y coordinates fall on top of the chip image. The coordinates you see below give the end points of the chip image.
+        betMade = true; //if the user clicks on the chip image, then the bet is made.
+        String[] options = new String[] {"1", "5", "10", "25", "100"}; //we declare an array of options that will be given when the user clicks the chip and and JOptionPane dialog comes up.
+        int response = JOptionPane.showOptionDialog(null, "Please enter your betting amount!", "PUNTATA", //This is the dialog that will popup when user clicks the chip.
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if(response == 0) {//if the user selects the first response, he selected the bet as 1.
+          currentBet = 1; //we assign 1 to the current bet.
+          currentBalance -= 1; //we decrement the current balance by the current bet.
+        }
+        else if(response == 1) {//the same thing goes on like this. The second respoonse is 5 so the bet is 5 and it is decreased from the current balance.
+          currentBet = 5;
+          currentBalance -= 5;
+        }
+        else if(response == 2) {
+          currentBet = 10;
+          currentBalance -= 10;
+        }
+        else if(response == 3) {
+          currentBet = 25;
+          currentBalance -= 25;
+        }
+        else if(response == 4) {
+          currentBet = 100;
+          currentBalance -= 100;
+        }
+        else { //if none of the options are selected, and if the user closes the option dialog without selecting, then we assign the bet as 1 because this is our default value.
+          currentBet = 1;
+          currentBalance -= 1;
+          System.out.println("You haven't selected a proper bet. Thus, the bet is taken as 1."); //we inform the reader from console that we have selected bet as 1 because it is the default bet.
+        }
+  
+        System.out.println("You have made your bet: " + currentBet + "." + " If you beat the dealer, you will increase your current balance by " + currentBet*2 +
+                "; if the dealer beats you you will decrease your current balance by " + currentBet + "."); //each time the player bets, we inform the consequences from the console.
+        Tester.newGame.startGame(); //then we start the game.
+      }
     
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
         
     }

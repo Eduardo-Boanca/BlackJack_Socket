@@ -11,6 +11,26 @@ import java.net.Socket;
 import javax.swing.*;
 
 public class ClientJack extends JFrame {
+    public static JFrame menuFrame = new JFrame(); // This is the frame which we will show when the user opens the game.
+                                                   // It will contain basic options like 'Play' and 'Exit'.
+    public static JFrame gameFrame = new JFrame(); // This is the frame in which the real blackjack game will be played.
+
+    private static int playerScore = 0; // we have the player score, which starts as 0.
+    private static int dealerScore = 0; // we have the dealer score, which starts as 0.
+    public static int currentBalance = 1000; // we have the balance, which starts with 1000.
+
+    public static Game newGame = new Game(gameFrame); // we initialize a 'Game' in order to control, start, and
+                                                      // calculate the blackjack game.
+    private static boolean isFirstTime = true; // this boolean value will check if the game is newly started for the
+                                               // first time.
+
+    public static enum STATE { // This enum represents the state of the game which is either menu or game.
+                               // While it is menu, we will show the user the menu. While it is game, we will
+                               // show the user the game.
+        MENU,
+        GAME
+    };
+
     private JTextArea displayArea;
     private JTextField inputField;
     private JButton hitButton;
@@ -20,40 +40,7 @@ public class ClientJack extends JFrame {
     private PrintWriter serverOut;
 
     public ClientJack() {
-        super("Blackjack Client");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
-
-        displayArea = new JTextArea();
-        displayArea.setEditable(false);
-        add(new JScrollPane(displayArea), BorderLayout.CENTER);
-
-        JPanel inputPanel = new JPanel();
-        inputField = new JTextField(20);
-        inputField.setEditable(false);
-        inputPanel.add(inputField);
-        add(inputPanel, BorderLayout.SOUTH);
-
-        JPanel buttonPanel = new JPanel();
-        hitButton = new JButton("Hit");
-        hitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                serverOut.println("hit");
-            }
-        });
-        buttonPanel.add(hitButton);
-        standButton = new JButton("Stand");
-        standButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                serverOut.println("stand");
-            }
-        });
-        buttonPanel.add(standButton);
-        add(buttonPanel, BorderLayout.NORTH);
-
-        setVisible(true);
     }
 
     public void connectToServer() {
